@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fellowship Attendance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <img class="logo" src="assets/nri-logo.png" alt="New Roots Institute">
+      <h1>Fellowship Attendance</h1>
+      <p class="lede">Upload the Zoom participant report for a session. The app checks every Fellow on the roster, adds up how long each one was in the room, and saves the results as a new tab in the roster Sheet.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="setup-warning" class="notice warn" hidden></div>
+    <div id="error" class="notice error" hidden></div>
+
+    <section class="step" id="step-signin">
+      <h2><span class="num">1</span> Connect the roster Sheet</h2>
+      <p>Paste the link to the Google Sheet that holds the Fellow roster, then sign in with a Google account that can edit it. The page remembers the link on this computer.</p>
+      <label class="field-label" for="sheet-url">Roster Sheet link</label>
+      <div class="row">
+        <input id="sheet-url" type="text" placeholder="https://docs.google.com/spreadsheets/d/...">
+      </div>
+      <div class="row">
+        <button id="signin-btn" class="primary" type="button">Sign in with Google</button>
+        <button id="sheet-reload" type="button" hidden>Load roster</button>
+        <button id="signout-btn" type="button" hidden>Sign out</button>
+        <span id="signin-status" class="status"></span>
+      </div>
+      <p id="roster-status" class="status"></p>
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <label for="roster-file">No Google access? Load the roster from a CSV file to preview results. Saving to the Sheet still needs sign-in.</label>
+        <input id="roster-file" type="file" accept=".csv,text/csv">
+      </details>
+    </section>
+
+    <section class="step" id="step-upload">
+      <h2><span class="num">2</span> Upload the Zoom report</h2>
+      <p>In Zoom, open Reports, choose Usage, find the meeting, and export the participants as CSV. Then pick that file here.</p>
+      <input id="zoom-file" type="file" accept=".csv,text/csv">
+      <p id="zoom-status" class="status"></p>
+      <div id="session-box" class="session" hidden>
+        <h3>Session details</h3>
+        <p>The date is read from the report. Change the times or the allowance if this session was different.</p>
+        <div class="fields">
+          <label>Date <input id="session-date" type="date"></label>
+          <label>Start <input id="session-start" type="time"></label>
+          <label>End <input id="session-end" type="time"></label>
+          <label>Minutes a Fellow may miss <input id="grace" type="number" min="0" max="180" step="1"></label>
+        </div>
+        <p class="hint">A Fellow is marked absent when they miss more than the allowed minutes. Time before the start or after the end does not count.</p>
+      </div>
+    </section>
+
+    <section class="step" id="step-review" hidden>
+      <h2><span class="num">3</span> Check the results</h2>
+      <div id="summary" class="tiles"></div>
+      <div id="warnings" class="notice warn" hidden></div>
+
+      <h3>Zoom entries that need a look</h3>
+      <p>These people could not be matched by email. Check the suggestion for each one and change it if it is wrong.</p>
+      <div class="table-scroll">
+        <table id="review-table" class="grid">
+          <thead>
+            <tr><th>Name in Zoom</th><th>Email in Zoom</th><th>Minutes in session</th><th>Who is this?</th><th>Result</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3>Everyone on the roster</h3>
+      <div class="row">
+        <label for="filter">Show</label>
+        <select id="filter">
+          <option value="all">Everyone</option>
+          <option value="Absent">Absent only</option>
+          <option value="Present">Present only</option>
+          <option value="Not enrolled">Not enrolled only</option>
+          <option value="notes">Rows with notes</option>
+        </select>
+        <button id="download-btn" type="button">Download as CSV</button>
+      </div>
+      <div class="table-scroll">
+        <table id="results-table" class="grid">
+          <thead>
+            <tr><th>Fellow</th><th>Email</th><th>Attendance</th><th>Minutes attended</th><th>Name in Zoom</th><th>How matched</th><th>Notes</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="step" id="step-save" hidden>
+      <h2><span class="num">4</span> Save to the Sheet</h2>
+      <p id="save-target"></p>
+      <div class="row">
+        <button id="save-btn" class="primary" type="button">Save to Google Sheet</button>
+        <span id="save-status" class="status"></span>
+      </div>
+      <p id="save-result" class="notice ok" hidden></p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>Nothing you upload leaves your browser except the finished results, which go straight to the Google Sheet under your own account.</p>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
