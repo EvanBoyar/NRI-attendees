@@ -22,6 +22,20 @@ Open the live page. Paste the link to the roster Google Sheet into the box under
 
 Then click "Sign in with Google" and pick the account that has access to that Sheet. The first time, Google asks you to allow the page to edit your spreadsheets. It only touches the Sheet you pasted.
 
+#### The warning screens you will see the first time
+
+Google shows two warning screens the first time you sign in from a given account. They look alarming, but they appear for any small app that has not gone through Google's paid verification review. It is safe to continue.
+
+The first screen says "Google hasn't verified this app". Click **Advanced** (the link on the left), then click **Go to evanboyar.github.io (unsafe)**.
+
+![Google hasn't verified this app screen, with the Advanced link and the Go to evanboyar.github.io link](assets/warning-unverified.png)
+
+The second screen asks you to confirm what the page can access. Leave the "See, edit, create, and delete all your Google Sheets spreadsheets" box ticked (the page cannot save results without it) and click **Continue**.
+
+![Consent screen asking to allow access to Google Sheets, with the box ticked and the Continue button](assets/warning-consent.png)
+
+You only see these once per Google account. Later sign-ins go straight through. The permission covers your spreadsheets in general because that is the only permission Google offers for writing to Sheets, but the page only ever opens the one whose link you pasted. You can remove the permission at any time at https://myaccount.google.com/permissions.
+
 Once you are signed in, the page reads the roster and tells you how many people it found. If you want to switch to a different Sheet later, paste the new link and click "Load roster".
 
 ### 3. Upload the Zoom report
